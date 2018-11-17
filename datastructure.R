@@ -169,6 +169,152 @@ addmargins(m1,c(1,2),mean) #row & col wise function
 
 addmargins(m1,c(1,2),list(list(mean,sum,max), list(var,sd))) #row & col wise function
 
-#dataframe ----
+#Array-----
+length(100:123)
+4*3*2
+#2 coys, 3 products, 4 locations sold qty
+(a1 = array(100:123, dim=c(4,3,2)))
+(loc = paste('loc', 1:4,sep='-'))
+(product = paste('p', 1:3,sep='@'))
+(coy = paste('coy', 1:2,sep='%'))
+dimnames(a1) = list(loc, product, coy)
+a1
+apply(a1,1, sum) #locationwise
+apply(a1,2, sum) #productwise
+apply(a1,c(1,2), sum) #product-location wise
+apply(a1,c(2,3), sum) #product-coy wise
+apply(a1,c(1,3), sum) #coy-location
+apply(a1,3, sum) #coywise
+sum(a1) #total
+
+
+#DataFrame----
+#create Vectors to be combined into DF
+(rollno = 1:30)
+(sname = paste('student',1:30,sep=''))
+(gender = sample(c('M','F'), size=30, replace=T, prob=c(.7,.3)))
+(marks = floor(rnorm(30,mean= 50,sd=10)))
+(marks2 = ceiling(rnorm(30,40,5)))
+(course = sample(c('BBA','MBA'), size=30, replace=T, prob=c(.5,.5)))
+rollno; sname; gender
+marks ; marks2; course
+
+#create DF
+df1= data.frame(rollno, sname, gender, marks, marks2, course, stringsAsFactors = F)
+str(df1) #structure of DF
+head(df1) #top 6 rows
+head(df1,n=3) #top 3 rows
+tail(df1) #last 6 rows
+class(df1) # DF
+summary(df1) #summary
+df1$gender = factor(df1$gender)
+df1$course = factor(df1$course)
+str(df1)
+summary(df1)
+
+
+df1  #full data
+df1$gender  # one column
+df1[ , c(2,4)] #multiple columns
+df1[1:10 ,] #select rows, all columns
+#as per conditionis
+df1[ marks > 50 & gender=='F', c('rollno', 'sname','gender', 'marks')]
+df1[ marks > 50 & gender=='F', c(1,2)]
+df1[ marks > 50 | gender=='F', ]
+
+names(df1)  # names of columns
+dim(df1)  #Dimensions
+
+aggregate(df1$marks, by=list(df1$gender), FUN=max)
+aggregate(marks ~ gender, data=df1, FUN=max)
+
+
+(df2 = aggregate(cbind(marks,marks2) ~ gender + course, data=df1, FUN=mean))
+#????????????????????????????/
+
+
+
+#List -----
+g ="My First List"
+h = c(25, 26,18,39)
+j = matrix(1:10,nrow=2)
+j
+k = c('one','two','three')
+mylist = list(title=g, ages=h, j, h)
+mylist
+mylist[2]
+mylist[[3]]
+mylist[['ages']]
+mylist$ages
+
+
+
+
+
+#Factor -----
+
+(grades = sample(c('A','B','C','D'), size=30, replace=T, prob=c(.3,.2,.4,.1)))
+summary(grades)
+table(grades)
+(gradesFactor = factor(grades))
+summary(gradesFactor)
+
+(gradesFactorOrdered = factor(grades, ordered=T))
+summary(gradesFactorOrdered)
+
+(gradesFactorOrderedLevels = factor(grades, ordered=T, levels=c('D','C','B','A')))
+summary(gradesFactorOrderedLevels)
+
+pie(summary(gradesFactorOrderedLevels))
+barplot(summary(gradesFactorOrderedLevels))
+
+class(grades)
+class(gradesFactorOrdered)
+class(gradesFactorOrderedLevels)
+
+
+
+# Object Properties
+#vector
+v1= 1:100
+class(v1) ; typeof(v1)
+v2=letters[1:10]
+class(v2) ; typeof(v2)
+length(v2)
+summary(v1)
+
+#matrix
+m1= matrix(1:24,nrow=6)
+class(m1)
+summary(m1)
+dim(m1)
+str(m1)
+
+#Array
+a1 =array(1:24, dim=c(4,3,2))
+class(a1)
+str(a1)
+dim(a1)
+summary(a1)
+
+
+
+#DF
+#data() #built in datasets
+df1= iris 
+str(df1)
+summary(df1)
+class(df1); dim(df1)
+nrow(df1) ; names(df1) ;NROW(df1)
+colnames(df1)
+rownames(df1)
+
+#list
+list1 = list(v1,m1,a1,df1)
+str(list1)
+
+#Statistical Description
+library(Hmisc)
+describe(df1)
 
   
